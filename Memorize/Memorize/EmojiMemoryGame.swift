@@ -9,10 +9,10 @@
 import SwiftUI
 
 
-struct EmojiMemoryGame {
+class EmojiMemoryGame: ObservableObject {
     // MARK: - 变量前添加修饰 private(set) ：该变量被外部只读，只能被本struct修改
     
-    private var model: MemoryGame<String> = EmojiMemoryGame.createMemoryGame()
+    @Published private var model: MemoryGame<String> = EmojiMemoryGame.createMemoryGame()
         
     static func createMemoryGame() -> MemoryGame<String> {
         let emojis: Array<String> = ["🐠", "🙈", "🐂", "🐞", "🐳"]
@@ -30,6 +30,7 @@ struct EmojiMemoryGame {
     // MARK: - 传递用户意图
     
     func choose(card: MemoryGame<String>.Card) {
+        // objectWillChange.send() 若model属性没有@Published修饰，则也可通过此方法publish更改
         model.choose(card: card)
     }
 }
